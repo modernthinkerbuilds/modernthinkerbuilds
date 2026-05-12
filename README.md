@@ -2,7 +2,7 @@
 
 I'm a **Product Manager at Google by day, agent builder by night** — and during a recent stretch of parental leave, between feeds and naps with a newborn, the cracks of "by morning" too.
 
-I build agents on **Rahat** — my sovereign, local-first runtime for personal AI agents. It runs on a Mac Mini in my home, syncs with my Apple Watch today, and over the next year will listen to my espresso machine, watch the contents of my fridge and pantry, and quietly handle the hundred small decisions that pile up in a household with two kids under three.
+I build agents on **Rahat** — my sovereign, local-first runtime for personal AI agents. It runs on a Mac Mini in my home, syncs with my Apple Watch today, and over the next year will listen to my espresso machine, watch the contents of my fridge and pantry, and quietly handle the hundred small decisions that pile up in a household with a newborn and a toddler.
 
 The vision is simple: **offload the cognitive overhead of modern life so humans can focus on what only humans can do.**
 
