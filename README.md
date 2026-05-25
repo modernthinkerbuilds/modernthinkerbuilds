@@ -1,117 +1,55 @@
-# Hi, I'm Venkat 👋
+# Venkat Sadras
 
-I'm a **Product Manager at Google by day, agent builder by night** — and during a recent stretch of parental leave, between feeds and naps with a newborn, the cracks of "by morning" too.
+> **AI PM who builds agent infrastructure — and makes it make sense.**
 
-I build agents on **Rahat** — a sovereign, local-first runtime for personal AI agents. It runs on a Mac Mini in my home, syncs with my Apple Watch today, and over the next year will listen to my espresso machine, watch the contents of my fridge and pantry, and quietly handle the hundred small decisions that pile up in a household with two kids under three.
+I build **Rahat**, a *control plane for AI agents*, at human scale — a local-first system that gives a mesh of personal agents one shared memory, one rulebook, and one orchestrator. I work on it daily, and I write about what it teaches about deploying agents anywhere.
 
-The vision is simple: **offload the cognitive overhead of modern life so humans can focus on what only humans can do.**
+The short version of my bet: **AI gets genuinely useful when it remembers your life and coordinates — not just when the model gets smarter.** The model is the engine; the layer underneath it — memory, governance, orchestration, evaluation — is the car. That layer is where I spend my time.
 
-If you're thinking about how Product Management evolves in the agentic era — what to build, how to architect, where the moats actually are — you're in the right place.
-
----
-
-## 🛠️ What I work on
-
-- 🤖 **Multi-agent systems** — orchestration, state machines, agent-to-agent handoffs without context loss
-- 🧠 **Memory architectures** — four-tier substrates, agent-specific adapters, sleep-time consolidation
-- 🔁 **Model-first reasoners** — LLM + deterministic tool catalogs over a shared state, replacing brittle regex routers
-- 🏠 **Local-first AI** — sovereign infrastructure on Apple Silicon (M4), zero cloud dependencies for personal data
-- 🧬 **Agent PRDs** — high-fidelity specs that treat agents as products, not features
-- ✍️ **Building in public** — documenting the journey from POC to platform, mistakes and pivots included
+→ **[See the architecture: Rahat →](https://github.com/modernthinkerbuilds/Rahat-Plane)**
 
 ---
 
-## 🚀 The Flagship: Rahat
+## How I think about agents
+
+Not a manifesto — the questions I'm actually working on, and where the field stands in 2026. I work on each one concretely in Rahat, so these are positions I can defend with a running system, not just opinions.
+
+**1. "Agent control plane" became the category — and that's the tell.** The enterprise fight in 2026 is no longer about building one clever agent; it's about the *control plane* — orchestration plus governance, observability, and identity, often described as "Kubernetes for AI agents." What I find most interesting is the convergence: a personal system built for one household and an enterprise platform built for thousands land on the **same four primitives** — memory, governance, orchestration, evaluation. When the small case and the huge case agree on the primitives, the primitives are probably right. That convergence is why I think personal-scale agent work transfers directly to the enterprise problem.
+
+**2. Memory went from a feature to a category — and "typed" beat "retrieval."** Two years ago "agent memory" meant a vector store bolted onto a chat log. By 2026 the research and the tooling have converged on something closer to what I bet on early: a *typed, structured* memory the agent updates deliberately — not everything dumped into embeddings and hoped for. The live open problems now are multi-scope memory (per-user / per-agent / per-run, merged at read time) and *restraint* — not letting an agent treat every passing fact as something worth keeping forever. Memory should be an action an agent takes, not always-on plumbing.
+
+**3. The standards settled faster than the patterns.** MCP (the model-to-tool connection) crossed into default status across enterprises and moved under a neutral foundation; A2A is consolidating the agent-to-agent half. The honest position for me: I built Rahat's tool layer *before* those standards settled, which makes the real question concrete rather than abstract — **what migrates to the open protocols, and what stays bespoke?** The interoperability layer is being poured right now, and the interesting work is deciding where to stand on it.
+
+**4. Governance, not capability, is the gate.** The 2026 consensus — and my experience — is that what decides whether an agent deployment survives production isn't model quality or cost; it's governance. Can you say, and enforce, what an agent is allowed to do on its own? Rahat has had a single policy layer that every action passes through from the start. It's the least glamorous primitive and the one that actually determines whether you can let an agent act at all.
+
+**5. The runtime is becoming the product.** Providers are packaging permissions, checkpointing, and memory into the runtime itself — 2026's "agent harness." That's exactly Rahat's next milestone: a shared runtime where the next agent is a prompt plus a tool list, not a hand-written pipeline. The architectural question that follows me: *what makes adding agent number eleven as cheap as agent number one?* Whoever answers that cleanly owns a lot of the next decade.
+
+**6. Local and cloud, not local versus cloud.** Frontier reasoning belongs in the cloud; personal state and policy decisions belong on the device. Rahat routes the hard reasoning out and keeps the memory and the vetoes local — the same split enterprise platforms are landing on, for the same reasons: cost, latency, and privacy. "Your data never leaves your machine" is becoming a product claim that sits *alongside* cloud features, not against them.
+
+---
+
+## Rahat — what it actually is
 
 > *Rahat (Urdu: رہات) — relief, ease, the lifting of a burden.*
 
-**Rahat** is a **Sovereign Intent Runtime** — a four-layer architecture (Control / Data / Runtime / Agent Adapter) where specialized agents share a single intent ledger *and* a four-tier memory substrate, and coordinate through a heartbeat-driven loop. Instead of a chatbot you have to prompt, Rahat operates ambiently: it observes your reality, remembers your commitments, measures the delta from your goals, and only surfaces decisions that actually need a human.
+A small fleet of specialized agents that share one memory, follow one rulebook (a central policy layer), and are coordinated by one orchestrator — so they can help with real, messy moments instead of answering one-off prompts. It runs locally on a Mac Mini and is used daily through my own life.
 
-### Three pivots, one moat
+**The governing principle:** *deterministic shell, LLM core.* The model proposes; tested, deterministic code does the math, enforces the rules, and executes. The model never invents a number, because numbers come from tools — it just decides which tools to call. Every agent is defined the same way: `name + description + system_prompt + tools`.
 
-I started with **one agent**: a sports scientist who could read my training history and tell me what to lift. Useful for about a week. The system has gone through three architectural pivots since, and each one made the next agent cheaper to add:
+**Honest status.** Three agents work today, plus the orchestrator and the policy layer; the memory and evaluation infrastructure are live. The first agents coach training and recovery — not because this is a fitness project, but because my own life was the most unforgiving test domain I had. The roadmap is an *everyday* mesh — weekend planning, gifts, dinner, travel — each new agent built on the same shared contract. **It's a personal-scale build, not enterprise software; the claim is that the problems are the same class, and solving them small is a real way to understand them.**
 
-**Pivot 1: Three planes (Control / Data / Runtime).** Agent #2 couldn't see Agent #1's context. Built a shared SQLite ledger, a Charter for policy enforcement, and Miya as the orchestrator. Now agents share state by reading from one source of truth.
+**Engineering discipline:** a five-layer hermetic test suite gates every change; every bug fix ships with a regression test; a pre-push gate blocks anything that breaks the suite. The repo is the proof, not a plan.
 
-**Pivot 2: Memory substrate.** The Scientist kept forgetting my commitments. I'd say *"I want hammer tier for 2 weeks"* and the next day get a recovery lecture. After ten rounds of reactive patches, the root cause was undeniable: **chat history isn't memory.** Built a four-tier substrate (events / entities / preferences / archival) with per-agent adapters that *actively manage* what each agent knows about me. The model now sees a structured `[Active goal: ...] [Commitments: ...] [Plan: ...]` block before every reply. Costs ~$0.0001/turn extracting state back into the substrate. Sleep-time consolidation runs nightly at 03:00.
-
-**Pivot 3: Model-first reasoner.** Regex routing broke on multi-clause questions and the Hyderabadi-English code-mix I actually use. Pivoted to a Gemini 2.5 Flash loop over a deterministic 25-tool catalog. The model decides what to call; tools execute deterministically; the cost ledger tracks every hop. Legacy regex stays as the fallback.
-
-Today the foundation is real: **475 test cases passing across 8 suites**, the Scientist running in production through the new contract with full memory + reasoner, the Bajrangi recovery agent shipped as a stub to prove the substrate composes for non-Scientist agents, six standalone SVG architecture diagrams, ~12 modules in `core/`. The thesis I'm building toward: **the 11th agent should cost ~1 day to add, not 11 days.** That's where the leverage lives.
-
-After the three pivots, I ran a **parsimony refactor**: retired ~5,200 LOC of stale/run-once files from the pre-pivot eras, folded the memory layer into a package, and split the Sports Scientist's 2,930-LOC god-file into four cleanly-scoped modules (`protocols` / `state` / `handler` / thin `main`) — a **95% reduction** in the entry-point file. Promoted **"Frictionless Setup"** to a first-class architectural principle so anyone with a fresh clone reaches green tests with a single `bash bootstrap.sh`. All 142 hermetic tests stayed byte-identically green across every step of the refactor.
-
-### The agents currently in the mesh
-
-| Agent | Role | What it owns |
-|---|---|---|
-| **The Miya** | Orchestrator + supervisor | Single voice; capability registry; cross-agent broker; Dakhini voice layer (`core/voice.py`) |
-| **The Scientist** | Vitality | Trajectory math, 25-tool reasoner, full memory adapter (`goal`, `plan`, `commitment`, `tier_change`) |
-| **Bajrangi** | Recovery — *stub shipped* | HRV / sleep / RHR; advises (Charter enforces). Memory adapter ready (`recovery_protocol`, `sleep_concern`) |
-
-Plus one piece of infrastructure that isn't an agent — **The Charter** — the policy plane every outbound write-tool passes through. Quiet hours, HRV-red blocks, family-priority overrides: written once, applied uniformly. Bajrangi advises; The Charter enforces. That separation is what keeps rules consistent as the mesh grows.
-
-**Coming in the Now window (months 1–6, scaling to ~20 agents):** **Curriculum** (toddler + newborn developmental phases), **Coach (Fraser)** (CrossFit programming + load auditing), **Appointments** (calendar + scheduling). Then concierge-class specialists in the Next window: **The Voyager** (travel research, Japan trip recall), **Annapurna** (pantry & grocery state), **The Barista** (espresso ritual + bean inventory), **Ustad** (asynchronous guitar audit). Each one ships against the same agent contract — entity types + adapter + tool registry, ~1 day per agent.
-
-→ **[Read the Rahat build journey →](https://github.com/modernthinkerbuilds/Rahat-Plane)**
+→ **[Read the architecture →](https://github.com/modernthinkerbuilds/Rahat-Plane)**
 
 ---
 
-## 🧠 How I think about agents
+## About me
 
-A few takes I've earned the hard way:
+Bay Area product manager. Hyderabad roots. Husband, and father of two — including a newborn who supervised most of the early build during parental leave. I care about building the kind of agents I'd actually want pointed at my own life: ones that remember, coordinate, and know when *not* to act.
 
-**1. Chat is a UI, not the architecture.**
-Most "AI products" in 2026 are still chatbots in a trench coat. The interesting systems use chat as one of many interfaces — alongside heartbeats, ambient sensors, voice, and vision. Architecting around the conversation is a local maximum.
-
-**2. Agents need shared state *and* shared memory.**
-The hardest problem in multi-agent systems isn't reasoning — it's memory. RAG over conversation logs is brittle. A structured intent ledger that every agent reads/writes, *plus* a four-tier memory substrate (events / entities / preferences / archival) where each agent actively assembles its context and extracts new state every turn — that's what makes a fleet feel coherent and trustworthy across days.
-
-**3. Memory is a tool the agent calls, not infrastructure that's always-on.**
-The cutting-edge insight from systems like Letta is that the agent should learn *when* to remember, *when* to forget, *when* to recall. A nightly consolidation worker summarizes inactive threads, decays stale preferences, and archives expired entities. Without it, the substrate bloats; with it, it stays sharp.
-
-**4. The real moat is composability.**
-Shipping a single specialized agent is easy. Shipping a system where the 11th agent costs the same as the 1st is hard. That's where the moat lives — not in the model, not in the prompt, in the infrastructure.
-
-**5. Separate the advisor from the enforcer.**
-A Bajrangi who reads HRV and recommends scaling is a domain expert. A Charter that vetoes any write-tool violating quiet hours is a policy. Conflating them means every new agent re-implements safety rules and every safety rule is brittle in exactly one agent. Decouple them and the rules become consistent across the mesh by construction.
-
-**6. Regex was a phase. Model-first with deterministic tools is the architecture.**
-"LLM as fallback for unmatched messages" was an okay 2024 idea. The 2026 version is: every message goes through a model that *decides which deterministic tools to call.* Tools enforce the math. The model orchestrates. Cost per turn: ~$0.001. Latency: 2–6s. Hallucination risk on numbers: zero, because numbers come from tools, not from the model.
-
-**7. Sovereignty is becoming a product feature, not a compliance checkbox.**
-The more personal AI gets, the more it matters where the data lives. "Local-first" is going to read in 2028 the way "open source" read in 2015.
-
-**8. Cleanup is architectural work, and frictionless setup is a feature.**
-Three architectural pivots had landed within a 20-minute window and the codebase was carrying every predecessor — ~5,200 LOC of dead-but-tracked files, a 2,930-LOC god-file in the reference agent. Post-pivot cleanup isn't grunt work; it's the moment when *"next agent costs ~1 day"* actually becomes true. I promoted **"Frictionless Setup"** to a first-class architectural principle alongside *Local-first sovereignty* and *Deterministic core, LLM at edges*: anyone with a fresh clone reaches a green hermetic test suite in one command, with zero hardcoded paths in tracked files. Concretely enforced by templated launchd plists, `.env.example`, repo-relative path resolution, and `bootstrap.sh`. If the next agent costs 11 days because someone has to edit five files for their machine, the moat is fake.
+I'm writing about agents, the control-plane idea, and what building Rahat teaches — in plain language, for people who want to understand where this is going without the jargon.
 
 ---
 
-## 🏋️ About me
-
-I'm a Bay Area PM with Hyderabad roots — a husband, and a father of two (a toddler and a newborn). I shipped the first version of Rahat during parental leave, in the gaps between feeds and naps, because at that point in life **manual logging is genuinely insulting.**
-
-Outside of work and code: CrossFit, currently chasing a 155kg deadlift; espresso (Niche Zero + Bambino, dialing in Ethiopian naturals); and learning the guitar slowly enough that an agent will eventually have to grade my progress because nobody else is watching.
-
-<table>
-  <tr>
-    <td align="center" width="50%"><img src="./assets/deadlift.jpg" alt="Deadlift lockout" width="100%"><br><sub><i>Pulling heavy. The reason "Bajrangi" exists — to tell me when not to.</i></sub></td>
-    <td align="center" width="50%"><img src="./assets/squat.jpg" alt="Back squat at depth" width="100%"><br><sub><i>Bottom of a back squat. The Scientist's reasoner reads videos like this through tool calls and tells me what's drifting.</i></sub></td>
-  </tr>
-</table>
-
-I write about training, recovery, and the long game on **[Resilient Soul](https://wordpress.com/post/resilientsoulsite.wordpress.com/37)** — my CrossFit blog about building a body that holds up across decades, not just PRs.
-
-I'm interested in the next decade of PMing: when agents are the surface area, when interfaces are ambient, when "the app" disappears into a heartbeat. I write about what I find as I build.
-
----
-
-## 🧱 Built on
-
-[OpenClaw](https://openclaw.ai) · Apple Silicon (M4) · SQLite · Gemini 2.5 Flash · `text-embedding-004` · Telegram
-
----
-
-*"The future of personal AI isn't a smarter chatbot. It's a quieter life."*
-
-<sub>All opinions my own.</sub>
+<sub>Local-first · Apple Silicon · SQLite · frontier LLM + structured tool calling · Telegram. Built on [OpenClaw](https://openclaw.ai). Opinions my own.</sub>
