@@ -64,4 +64,4 @@ A Bay Area PM at a large tech company, hands-on with multi-agent systems. Hydera
 
 The code, architecture, and decision records are public: **[github.com/modernthinkerbuilds/Rahat-Plane](https://github.com/modernthinkerbuilds/Rahat-Plane)**.
 
-<sub>Views my own, not my employer's. Drafted with Claude, edited and verified by me.</sub>
+<sub>Views my own, not my employer's. </sub>
